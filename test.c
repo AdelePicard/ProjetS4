@@ -30,7 +30,7 @@ int main (int argc, char **argv)
        int index;
        int c;
      
-       opterr = 0;
+       opterr = 1;
      
        while ((c = getopt (argc, argv, "hvctruxfzdm:sparse:")) != -1)
        {
