@@ -6,7 +6,8 @@
 
 
 void afficherAide()
-{
+{			
+	printf("\n");       
 	printf("-h : affiche l'aide de votre commande\n");
 	printf("-v : pour activer le mode verbose (affiche des détails sur l'execution)\n");
 	printf("-c : pour créer une archive à partir d'une liste de fichier\n");
@@ -19,11 +20,14 @@ void afficherAide()
 	printf("-d : pour suprimer un fichier d'une archive\n");
 	printf("-sparse : pour économiser de la place pour stocker les fichiers contenant beaucoup de zéros consécutifs\n");
 	printf("-m : affciher les différences entre les fichiers archivés et les fichiers existants\n");
+	printf("\n"); 
 }
+
+
      
 int main (int argc, char **argv)
      {
-       int hflag = 0; int tflag = 0; int xflag = 0; int dflag = 0;
+	   int tflag = 0; int xflag = 0; int dflag = 0;
        int vflag = 0; int rflag = 0; int fflag = 0; int mflag = 0;
        int cflag = 0; int uflag = 0; int zflag = 0; int sparseflag = 0;
        
@@ -32,8 +36,9 @@ int main (int argc, char **argv)
      
        opterr = 0;
      
-       while ((c = getopt (argc, argv, "hvctruxfzdm:sparse:")) != -1)
+       if ((c = getopt (argc, argv, "hvctruxfzdm:sparse:")) != -1)
        {
+		   int nb=1;
          switch (c)
            {
            case 'h':
@@ -72,19 +77,41 @@ int main (int argc, char **argv)
            default:
            fprintf(stderr, "Error\n");
             exit(EXIT_FAILURE);
-           }
-          
-				
-     
-       printf ("hflag = %d, vflag = %d, cflag = %d, tflag = %d,"
-                "rflag = %d, uflag = %d, xflag = %d, fflag = %d,"
-                "zflag = %d, dflag = %d, mflag = %d",
-               hflag, vflag, cflag, tflag, rflag, uflag, xflag, fflag,
-                 zflag, dflag, mflag);
-     
-       for (index = optind; index < argc; index++)
-         printf ("Non-option argument %s\n", argv[index]);
-		printf("\n");       
-	return 0;
+           }          				        
      }
+	 if (cflag == 1)
+	 {
+		 int nb=2;
+		 FILE *f_in;
+		 if ((f_in = fopen(argv[argc-1],"w")) == NULL)
+		{
+			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
+		}
+		 while (nb<argc && argc>1 )
+		 {
+			 FILE *f_out;
+			 if ((f_out = fopen(argv[nb],"r")) == NULL)
+			{
+				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
+			}
+			char ligne[90];
+
+fgets(ligne, 90, f_out);
+ 
+				while (!feof(f_out))
+				{
+					fputs(ligne, f_in);
+					fgets(ligne, 81, f_out);
+				}
+
+
+			fclose(f_out);
+			nb++;
+		 }
+		fclose(f_in);		
+	 }
+	 
+     return 0;
 }
+
+
