@@ -4,9 +4,8 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <time.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+
+
 
 
 
@@ -28,9 +27,6 @@ void afficherAide()
 	printf("\n"); 
 }
 
-
-<<<<<<< HEAD
-
 int nombreLignes (FILE* f) {
 
 	char ligne[90];
@@ -43,12 +39,16 @@ int nombreLignes (FILE* f) {
 	return nb_ligne;
 }
 
- 
+//~ char date()
+//~ {			char Date;
+			 //~ time_t date;
+			//~ date = time(NULL);
+			//~ Date = ctime(&date);
+			//~ return Date;
+//~ }
 
-   
-=======
+
      
->>>>>>> 41c827faecf6293679fed0c7ae98ef4d735c7390
 int main (int argc, char **argv)
      {
 	   int tflag = 0; int xflag = 0; int dflag = 0;
@@ -59,12 +59,7 @@ int main (int argc, char **argv)
        int c;
      
        opterr = 0;
-<<<<<<< HEAD
-       
-// Pour gérer les options     
-=======
      
->>>>>>> 41c827faecf6293679fed0c7ae98ef4d735c7390
        if ((c = getopt (argc, argv, "hvctruxfzdm:sparse:")) != -1)
        {
 		   int nb=1;
@@ -108,26 +103,16 @@ int main (int argc, char **argv)
             exit(EXIT_FAILURE);
            }          				        
      }
-<<<<<<< HEAD
-     
-//-c : pour créer une archive à partir d'une liste de fichier
 	 if (cflag == 1)
 	 {
 		 int nb=2;
 		 int nb_ligne = 0;
 		 FILE *f_in;
-		 time_t date;
-=======
-	 if (cflag == 1)
-	 {
-		 int nb=2;
-		 FILE *f_in;
->>>>>>> 41c827faecf6293679fed0c7ae98ef4d735c7390
+		 //time_t date;
 		 if ((f_in = fopen(argv[argc-1],"w")) == NULL)
 		{
 			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
 		}
-<<<<<<< HEAD
 		 while (nb<argc-1 && argc>1 )
 		 {
 			 FILE *f_out;
@@ -144,8 +129,10 @@ int main (int argc, char **argv)
 			snprintf(nbLigne, 10, "%i", nb_ligne);
 			fputs(nbLigne,f_in);
 			fputc('\n',f_in);
-			date = time(NULL);
-			fputs( ctime(&date),f_in);
+			//date = time(NULL);
+			//fputs( ctime(&date),f_in);
+			//char Date = date();
+			//fputs((char *)Date,f_in);
 			fputc('\n',f_in);
 			if ((f_out = fopen(argv[nb],"r")) == NULL)
 			{
@@ -157,122 +144,99 @@ int main (int argc, char **argv)
 				fgets(ligne, 90, f_out);
 			}
 			fputc('\n',f_in);
-=======
-		 while (nb<argc && argc>1 )
-		 {
-			 FILE *f_out;
-			 if ((f_out = fopen(argv[nb],"r")) == NULL)
-			{
-				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
-			}
-			char ligne[90];
-
-			fgets(ligne, 90, f_out);
- 
-			while (!feof(f_out))
-			{
-				fputs(ligne, f_in);
-				fgets(ligne, 81, f_out);
-			}
-
-
->>>>>>> 41c827faecf6293679fed0c7ae98ef4d735c7390
 			fclose(f_out);
 			nb++;
 		 }
 		fclose(f_in);		
 	 }
-	 
-<<<<<<< HEAD
-// -r : pour ajouter de nouveaux fichiers
-	 if (rflag==1)
+	 //~ if (rflag==1)
+	 //~ {
+		 //~ int nb=2;
+		 //~ int nb_ligne = 0;
+		 //~ FILE *f_in;
+		 //~ time_t date;
+		 //~ if ((f_in = fopen(argv[argc-1],"a")) == NULL)
+		//~ {
+			//~ fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
+		//~ }
+		 //~ while (nb<argc-1 && argc>1 )
+		 //~ {
+			 //~ FILE *f_out;
+//~ 
+			//~ nb_ligne = nombreLignes(f_out);
+			//~ char ligne[90];
+			//~ fgets(ligne, 90, f_out);
+			//~ fputs(argv[nb],f_in);
+			//~ fputc('\n',f_in);
+			//~ char nbLigne [10];
+			//~ snprintf(nbLigne, 10, "%i", nb_ligne);
+			//~ fputs(nbLigne,f_in);
+			//~ fputc('\n',f_in);
+			//~ //date = time(NULL);
+			//~ //fputs( ctime(&date),f_in);
+			//~ fputc('\n',f_in);
+			//~ if ((f_out = fopen(argv[nb],"r")) == NULL)
+			//~ {
+				//~ fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
+			//~ }
+			//~ while (!feof(f_out))
+			//~ {
+				//~ fputs(ligne, f_in);
+				//~ fgets(ligne, 90, f_out);
+			//~ }
+			//~ fputc('\n',f_in);
+			//~ fclose(f_out);
+			//~ nb++;
+		 //~ }
+		//~ fclose(f_in);	
+	 //~ }
+	 	
+	 	
+	 	 if (tflag == 1)
 	 {
 		 int nb=2;
-		 int nb_ligne = 0;
-		 FILE *f_in;
-		 time_t date;
-		 if ((f_in = fopen(argv[argc-1],"a")) == NULL)
+		FILE *f_in;
+		  if ((f_in = fopen(argv[argc-1],"r")) == NULL)
 		{
 			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
 		}
-		 while (nb<argc-1 && argc>1 )
-		 {
-			 FILE *f_out;
-			if ((f_out = fopen(argv[nb],"r")) == NULL)
-			{
-				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
-			}
-			nb_ligne = nombreLignes(f_out);
 			char ligne[90];
-			fgets(ligne, 90, f_out);
-			fputs(argv[nb],f_in);
-			fputc('\n',f_in);
-			char nbLigne [10];
-			snprintf(nbLigne, 10, "%i", nb_ligne);
-			fputs(nbLigne,f_in);
-			fputc('\n',f_in);
-			date = time(NULL);
-			fputs( ctime(&date),f_in);
-			fputc('\n',f_in);
-			if ((f_out = fopen(argv[nb],"r")) == NULL)
+					
+			//char* nom = fgets(ligne, 90, f_in);
+			//printf("%s\n", nom);
+			
+			//char* nbLigne = fgets(ligne, 90, f_in);
+			//printf("%s\n", nbLigne);
+			
+			//int nbL = atoi(nbLigne);
+		
+			int numeroLigne=1;
+			int nbL;
+			
+			while(!feof(f_in))
 			{
-				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
+				char* nom = fgets(ligne, 90, f_in);
+				printf("%s\n", nom);
+
+				char* nbLigne = fgets(ligne, 90, f_in);
+				nbL = atoi(nbLigne);
+				printf("%d\n", numeroLigne);
+				
+				numeroLigne += nbL;
+				
 			}
-			while (!feof(f_out))
+			
+		
+		int i;
+			for ( i = 0; i < 30; i+=nbL)
 			{
-				fputs(ligne, f_in);
-				fgets(ligne, 90, f_out);
+				
+
 			}
-			fputc('\n',f_in);
-			fclose(f_out);
-			nb++;
-		 }
-		fclose(f_in);	
+		fclose(f_in);
 	 }
 	 
-// -u : pour mettre à jour l'archive si les fichiers lités sont plus récents que ceux archivés	 
-	 if (uflag==1)
-	 {	
-		 FILE *f_in1;
-		 int nb=2;
-		 if ((f_in1 = fopen(argv[argc-1],"a")) == NULL)
-		{
-			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
-		}
-		while (EOF != (c = fgetc(f_in1)))
-		{
-			char* nbL;
-			int ligne = 0;
-			int ma_ligne = 2;
-			int taille;
-			char* dateIn;
-			char* dateOut;
-
-			if ('\n' == c)
-            {
-				if(ligne == 1)
-					//nbL = fgets(ligne, 90, f_in1);
-                if (ligne == ma_ligne)
-                   break;
-                ligne++;
-            }
-        
-
-        if (ligne == ma_ligne)
-        {
-         //dateIn = fgets(ligne, 90, f_in1);
-        }
-		
-			while (nb<argc-1 && argc>1 )
-			{ 	FILE *f_out;
-			fclose(f_out);
-			nb++;
-			}
-		}
-		fclose(f_in1);		
-	 } 
-=======
->>>>>>> 41c827faecf6293679fed0c7ae98ef4d735c7390
+	 
      return 0;
 }
 
