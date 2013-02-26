@@ -18,3 +18,4 @@ void afficherAide()
 	printf("-m : affciher les différences entre les fichiers archivés et les fichiers existants\n");
 	printf("\n"); 
 }
+
