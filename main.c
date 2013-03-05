@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include "affichage.h"
 #include "fonctionsUtiles.h"
-#include "optionCF.h"
+#include "compression.h"
 
 
  
@@ -57,7 +57,7 @@ int main (int argc, char **argv)
 				fflag = 1;
                 break;
            case 'z':
-				zflag = 1;
+				compression(argv[argc-1]);
 				break;
            case 'd':
 				dflag = 1;
@@ -70,10 +70,15 @@ int main (int argc, char **argv)
             exit(EXIT_FAILURE);
            }        				        
      }
-     if (cflag == 1)
-     {
-		 // à implémenter
-	 }
+     
+//-z : pour compresser une archive
+     //~ if (zflag == 1)
+     //~ {
+		//~ 
+		//~ 
+//~ 
+//~ 
+	 //~ }
 	 
 //-c : pour créer une archive à partir d'une liste de fichier
 //-f : pour indiquer le nom du fichier archive
@@ -81,7 +86,7 @@ int main (int argc, char **argv)
 	 {
 		 int nb=2;
 		 int nb_ligne = 0;
-		 FILE *f_in;
+		 FILE *f_in;	
 		 time_t date;
 		 if ((f_in = fopen(argv[argc-1],"w")) == NULL)
 		{
