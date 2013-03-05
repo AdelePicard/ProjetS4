@@ -71,14 +71,6 @@ int main (int argc, char **argv)
            }        				        
      }
      
-//-z : pour compresser une archive
-     //~ if (zflag == 1)
-     //~ {
-		//~ 
-		//~ 
-//~ 
-//~ 
-	 //~ }
 	 
 //-c : pour créer une archive à partir d'une liste de fichier
 //-f : pour indiquer le nom du fichier archive
