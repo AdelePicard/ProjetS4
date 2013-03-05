@@ -9,12 +9,9 @@
 #include <sys/stat.h>
 #include "affichage.h"
 #include "fonctionsUtiles.h"
-#include "compression.h"
 
 
- 
 
-   
 int main (int argc, char **argv)
 {
 	   int tflag = 0; int xflag = 0; int dflag = 0;
@@ -70,16 +67,19 @@ int main (int argc, char **argv)
             exit(EXIT_FAILURE);
            }        				        
      }
-     
+     if (cflag == 1)
+     {
+		 // à implémenter
+	 }
 	 
 //-c : pour créer une archive à partir d'une liste de fichier
 //-f : pour indiquer le nom du fichier archive
 	 if (cflag == 1 && fflag == 1)
 	 {
 		 int nb=2;
-		 int nb_ligne = 0;
-		 FILE *f_in;	
-		 time_t date;
+
+		 FILE *f_in;
+		 
 		 if ((f_in = fopen(argv[argc-1],"w")) == NULL)
 		{
 			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
@@ -91,28 +91,13 @@ int main (int argc, char **argv)
 			{
 				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
 			}
-			nb_ligne = nombreLignes(f_out);
-			char ligne[90];
-			fgets(ligne, 90, f_out);
-			fputs(argv[nb],f_in);
-			fputc('\n',f_in);
-			char nbLigne [10];
-			snprintf(nbLigne, 10, "%i", nb_ligne);
-			fputs(nbLigne,f_in);
-			fputc('\n',f_in);
-			date = time(NULL);
-			fputs( ctime(&date),f_in);
-			fputc('\n',f_in);
+			
+			header(f_in,f_out,argv[nb]);		
 			if ((f_out = fopen(argv[nb],"r")) == NULL)
 			{
 				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
 			}
-			while (!feof(f_out))
-			{
-				fputs(ligne, f_in);
-				fgets(ligne, 90, f_out);
-			}
-			fputc('\n',f_in);
+			copie(f_in,f_out);
 			fclose(f_out);
 			nb++;
 		 }
@@ -123,13 +108,11 @@ int main (int argc, char **argv)
 	 if (rflag==1)
 	 {
 		 int nb=2;
-		 int nb_ligne = 0;
 		 FILE *f_in;
-		 time_t date;
 		 if ((f_in = fopen(argv[argc-1],"a")) == NULL)
-		{
+		 {
 			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
-		}
+		 }
 		 while (nb<argc-1 && argc>1 )
 		 {
 			 FILE *f_out;
@@ -137,34 +120,33 @@ int main (int argc, char **argv)
 			{
 				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
 			}
-			nb_ligne = nombreLignes(f_out);
-			char ligne[90];
-			fgets(ligne, 90, f_out);
-			fputs(argv[nb],f_in);
-			fputc('\n',f_in);
-			char nbLigne [10];
-			snprintf(nbLigne, 10, "%i", nb_ligne);
-			fputs(nbLigne,f_in);
-			fputc('\n',f_in);
-			date = time(NULL);
-			fputs( ctime(&date),f_in);
-			fputc('\n',f_in);
+
+			header(f_in,f_out,argv[nb]);
 			if ((f_out = fopen(argv[nb],"r")) == NULL)
 			{
 				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
 			}
-			while (!feof(f_out))
-			{
-				fputs(ligne, f_in);
-				fgets(ligne, 90, f_out);
-			}
-			fputc('\n',f_in);
+			copie(f_in,f_out);
 			fclose(f_out);
 			nb++;
 		 }
 		fclose(f_in);	
 	 }
 	 
+//-t : pour lister les fichiers contenus dans une archive
+	if (tflag==1)
+	{
+		FILE *f_in;
+		char* l;
+		char ligne[90];
+		 if ((f_in = fopen(argv[argc-1],"r")) == NULL)
+		{
+			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
+		}
+			niemeLigne(f_in,0);	
+		fclose(f_in);	
+	}
+	
 // -u : pour mettre à jour l'archive si les fichiers lités sont plus récents que ceux archivés	 
 	 if (uflag==1)
 	 {	
